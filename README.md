@@ -7,7 +7,7 @@
 
 # Python dependencies
 
-- autogent_agentchat
+- autogen_agentchat
 - autogen-ext
 - openai
 - tiktoken

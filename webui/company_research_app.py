@@ -99,25 +99,34 @@ st.title("Company Research App")
 company = st.text_input("Enter company name (for search):", "American Airlines")
 ticker = st.text_input("Enter stock ticker:", "AAL")
 
-if st.button("Search Company Info"):
-    with st.spinner("Searching..."):
-        results = google_search(company)
-        for r in results:
-            st.subheader(r["title"])
-            st.write(r["snippet"])
-            st.write(r["body"])
-            st.write(f"[Link]({r['link']})")
+# Two buttons outside the container
+search_clicked = st.button("Search Company Info")
+analyze_clicked = st.button("Analyze Stock")
 
-if st.button("Analyze Stock"):
-    with st.spinner("Analyzing..."):
-        stock_info = analyze_stock(ticker)
-        if "error" in stock_info:
-            st.error(stock_info["error"])
-        else:
-            st.json(stock_info)
+# Track which button was clicked
+if search_clicked:
+    st.session_state['show'] = 'search'
+elif analyze_clicked:
+    st.session_state['show'] = 'analyze'
 
-if st.button("Generate Report"):
-    st.write("## Report")
-    st.write(f"Company: {company}")
-    st.write(f"Ticker: {ticker}")
-    # You can add more logic to combine search and stock info here
+result_container = st.container()
+
+with result_container:
+
+    if st.session_state.get('show') == 'search':
+        with st.spinner("Searching..."):
+            results = google_search(company)
+            for r in results:
+                st.subheader(r["title"])
+                st.write(r["snippet"])
+                st.write(r["body"])
+                st.write(f"[Link]({r['link']})")
+
+    elif st.session_state.get('show') == 'analyze':
+        with st.spinner("Analyzing..."):
+            stock_info = analyze_stock(ticker)
+            if "error" in stock_info:
+                st.error(stock_info["error"])
+            else:
+                st.json(stock_info)
+

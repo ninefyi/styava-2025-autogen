@@ -1,0 +1,13 @@
+autogen_agentchat
+autogen-ext
+openai
+tiktoken
+python-dotenv
+arxiv
+streamlit
+bs4
+yfinance
+matplotlib
+numpy
+pandas
+requests
